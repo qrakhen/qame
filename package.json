@@ -1,0 +1,49 @@
+{
+    "name": "qame",
+    "version": "0.0.1.13",
+    "description": "2/3d js renderer and OCS game engine",
+    "main": "main.js",
+    "scripts": {
+        "wclient": "watchify out/client/client.js -o public/js/client.out.js -dv",
+        "wsass": "node-sass src/client/client.scss -o public/css/ --output-style compact -w",
+        "wts": "tsc -p ./ -w",
+        "dev": "startdevenv.bat --dev -vv",
+        "dev-reset-db": "startdevenv.bat --dev -vvv --reset-db",
+        "build": "nodemon --watch ./src/* --ext ts,scss --exec ./build.bat"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@git.sygade.eu:qrakhen/qame"
+    },
+    "keywords": [
+        "game",
+        "qame",
+        "jsgame",
+        "engine",
+        "js",
+        "gameengine",
+        "renderer",
+        "2d",
+        "3d",
+        "lightweight",
+        "type-support"
+    ],
+    "author": "Qrakhen",
+    "license": "ISC",
+    "dependencies": {
+        "@types/browserify": "^12.0.36",
+        "@types/colors": "^1.2.1",
+        "@types/guid": "^1.0.0",
+        "@types/jquery": "^3.3.31",
+        "browserify": "^16.5.0",
+        "colors": "^1.4.0",
+        "ejs": "^2.7.1",
+        "guid": "0.0.12",
+        "input": "^1.0.1",
+        "jquery": "^3.4.1",
+        "reflect-metadata": "^0.1.13",
+        "ts-node-dev": "^1.0.0-pre.44",
+        "tsify": "^4.0.1",
+        "typescript": "^4.5.4"
+    }
+}
