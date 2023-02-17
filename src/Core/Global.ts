@@ -3,6 +3,7 @@ import Time from "./Time";
 import Objeqt from "./Objeqt";
 import Debug from "../Debug";
 import World from "./World";
+import { Config } from "../Qame";
 
 class Global {
     static objects: Array<Objeqt>;
@@ -13,21 +14,28 @@ class Global {
     static stepsPerSecond: number;
     static targetFps: number;
 
-    static init(ctx) {
-        Global.ctx = ctx;
+    static config: Config
+
+    static init(config) {
+        Global.config = config;
+        Global.ctx = config.ctx;
+        Global.targetFps = config.targetFps;
+        Global.stepsPerSecond = config.stepsPerSecond;
         Global.camera = new Camera();
         Global.world = new World();
     }
 
-    static start(stepsPerSecond: number = 20, targetFps: number = 60) {
-        Global.stepsPerSecond = stepsPerSecond;
-        Global.targetFps = targetFps;
+    static start() {
         Time.start();
         Global.__step();
         Global.__update();
     }
 
-    static __update() {
+    static pause() {}
+    static resume() {}
+    static quit() {}
+
+    private static __update() {
         Time.update();
         const ctx = Global.ctx;
         ctx.fillStyle = Global.camera.color.toHexCode();
@@ -41,7 +49,7 @@ class Global {
         setTimeout(Global.__update, 1000 / Global.targetFps);
     }
 
-    static __step() {
+    private static __step() {
         Global.world.step();
         setTimeout(Global.__step, 1000 / Global.stepsPerSecond);
     }

@@ -8,21 +8,11 @@ import Time from './Core/Time';
 import Camera from './Core/Camera';
 import World from './Core/World';
 
-/*
-interface kQame {
-    Objeqt: Objeqt,
-    Component: Component,
-    Global: Global,
-    Time: Time,
-    Camera: Camera, 
-    Vector: Vector, 
-    Transform: Transform,
-    Base: Base, 
-    World: World, 
+declare global {
+    interface Window { Qame: any }
 }
-*/
 
-export {
+window.Qame = {
     Objeqt,
     Component,
     Global,
@@ -34,36 +24,60 @@ export {
     World
 };
 
-const Qame = {
-    Objeqt: Objeqt,
-    Component: Component,
-    Global: Global,
-    Time: Time,
-    Camera: Camera,
-    Vector: Vector,
-    Transform: Transform,
-    Base: Base,
-    World: World
-};
+export const MODE_2D = '2d';
+export const MODE_3D = '3d';
 
-/*
-export { Qame };
-
-declare global {
-    interface Window { Qame }
-}*/
-
-declare global {
-    interface Window {
-        Qame: Qame
-    };
+export interface Config {
+    targetFps: number;
+    stepsPerSecond: number;
+    name: string;
+    mode: string;
+    ctx: RenderingContext | null;
 }
 
-window.Qame = window.Qame || undefined;
+export const DEFAULT_CONFIG = {
+    targetFps: 100,
+    stepsPerSecond: 20,
+    name: 'new game',
+    mode: MODE_2D,
+    ctx: null
+};
 
-/** TEST */
-import $ from "jquery";
-$(document).on('ready', () => {
-    Global.init((<HTMLCanvasElement>document.getElementById("main")).getContext("2d"));
+export function init(
+        canvasId: string,
+        config: Config = undefined) {
+    if (!config)
+        config = DEFAULT_CONFIG;
+    config.ctx = (<HTMLCanvasElement>document
+        .getElementById(canvasId))
+        .getContext(config.mode);
+    Global.init(config);
+}
+
+export function start() {
     Global.start();
-});
+}
+
+export function pause() {
+    Global.pause();
+}
+
+export function resume() {
+    Global.resume();
+}
+
+export function quit() {
+    Global.quit();
+}
+
+export {
+    Objeqt,
+    Component,
+    Global,
+    Time,
+    Camera,
+    Vector,
+    Transform,
+    Base,
+    World
+}

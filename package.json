@@ -1,6 +1,6 @@
 {
     "name": "qame",
-    "version": "0.0.1.13",
+    "version": "0.0.1.39",
     "description": "2/3d js renderer and OCS game engine",
     "main": "main.js",
     "scripts": {

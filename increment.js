@@ -1,23 +1,26 @@
+/**
+ * Simple build incrementer. Everytime build.sh/.bat is triggered, this will finally increment this version's build number. 
+ */
+
 const fs = require("fs");
 
-var file = fs.readFileSync("./package.json");
-var prev = parseInt(fs.readFileSync("./prevbuild"));
+const 
+    f = fs.readFileSync("./package.json"),
+    p = parseInt(fs.readFileSync("./prevbuild")),
+    j = JSON.parse(f),
+    v = j.version,
+    s = v.split("."),
+    b = s[3],
+    n = parseInt(b) + 1;
 
-var json = JSON.parse(file);
-var version = json.version;
-var split = version.split(".");
-var build = split[3];
-
-var newBuild = parseInt(build) + 1;
-
-if (prev != parseInt(split[2])) {
-    newBuild = 1;    
-    console.log("new revision detected, resetting build counter");
+if (p != parseInt(s[2])) {
+    n = 1;
+    console.warn("new revision detected, resetting build counter");
 }
 
-json.version = split[0] + "." + split[1] + "." + split[2] + "." + newBuild.toString().padStart('0', 4);
+j.version = s[0] + "." + s[1] + "." + s[2] + "." + n.toString().padStart('0', 4);
 
-console.log("incremented build counter (" + newBuild + ")");
+console.log("incremented build counter (" + n-1 + " > " + n + ")");
 
-fs.writeFileSync("package.json", JSON.stringify(json, null, 4));
-fs.writeFileSync("prevbuild", split[2]);
+fs.writeFileSync("package.json", JSON.stringify(j, null, 4));
+fs.writeFileSync("prevbuild", s[2]);
